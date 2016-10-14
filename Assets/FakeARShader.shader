@@ -5,8 +5,8 @@ Shader "Custom/FakeAR"
 {
 	Properties{
 		_MainTex("", 2D) = "white" {}
-		_FOV("FOV", Range(0, 10)) = 1.48
-		_Disparity("Disparity", Range(0, 0.3)) = 0.1
+		[HideInInspector]_FOV("FOV", Range(1, 2)) = 1.6
+		[HideInInspector]_Disparity("Disparity", Range(0, 0.3)) = 0.1
 		[HideInInspector]_Alpha("Alpha", Range(0, 2.0)) = 1.0
 	}
 
