@@ -1,7 +1,13 @@
-﻿Shader "Custom/FakeAR"
+﻿// Author: Long Qian
+// Email: lqian8@jhu.edu
+
+Shader "Custom/FakeAR"
 {
 	Properties{
 		_MainTex("", 2D) = "white" {}
+		_FOV("FOV", Range(0, 10)) = 1.48
+		_Disparity("Disparity", Range(0, 0.3)) = 0.1
+		[HideInInspector]_Alpha("Alpha", Range(0, 2.0)) = 1.0
 	}
 
 	SubShader{
@@ -10,15 +16,14 @@
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#include "UnityCG.cginc" 
-			//we include "UnityCG.cginc" to use the appdata_img struct
+			#include "UnityCG.cginc"
 
 			struct v2f {
 				float4 pos : POSITION;
-				half2 uv : TEXCOORD0;
+				float2 uv : TEXCOORD0;
 			};
 
-			//Our Vertex Shader 
+			// Default Vertex Shader 
 			v2f vert(appdata_img v) {
 				v2f o;
 				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
@@ -26,15 +31,45 @@
 				return o;
 			}
 
+			// Parameters
 			sampler2D _MainTex;
-	
-			fixed4 frag(v2f i) : COLOR {
-				// Get the orginal rendered color
-				fixed4 orgCol = tex2D(_MainTex, abs(i.uv * 2.0 - 1.0));
-				float avg = (orgCol.r + orgCol.g + orgCol.b) / 3.0;
-				fixed4 col = fixed4(avg, avg, avg, 1);
+			float _FOV;
 
-				return orgCol;
+			// Alpha is the ratio of pixel density: width to height
+			float _Alpha;
+			// Disparity is the portion to separate
+			// larger disparity cause closer stereovision
+			float _Disparity;
+
+			
+			// Fragment Shader: Remap the texture coordinates to combine
+			// barrel distortion and disparity video display
+			fixed4 frag(v2f i) : COLOR {
+				float2 uv1, uv2, uv3;
+				float t1, t2;
+				float offset;
+				
+				// uv1 is the remap of left and right screen to a full screen 
+				uv1 = i.uv - 0.5;
+				uv1.x = uv1.x * 2 - 0.5 + sign(i.uv.x < 0.5);
+				
+				t1 = sqrt(1.0 - uv1.x * uv1.x - uv1.y * uv1.y);
+				t2 = 1.0 / (t1 * tan(_FOV * 0.5));
+				
+				// uv2 is the remap of side screen with barrel distortion
+				uv2 = uv1 * t2 + 0.5;
+
+				// black color for out-of-range pixels
+				if (uv2.x >= 1 || uv2.y >= 1 || uv2.x <= 0 || uv2.y <= 0) {
+					return fixed4(0, 0, 0, 1);
+				}
+				else {
+					offset = 0.5 - _Alpha * 0.5 + _Disparity * 0.5 - _Disparity * sign(i.uv.x < 0.5);
+					// uv3 is the remap of image texture
+					uv3 = uv2;
+					uv3.x = uv2.x * _Alpha + offset;
+					return tex2D(_MainTex, uv3);
+				}				
 			}
 			ENDCG
 		}

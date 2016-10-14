@@ -46,7 +46,7 @@ public class AndroidWebcamDisplay : MonoBehaviour {
 #if UNITY_EDITOR
             // In editor mode, the camera is usually front facing
             // grab any camera is fine for testing
-            webCameraTexture = new WebCamTexture(cameraIndex, Screen.width, Screen.height);
+            webCameraTexture = new WebCamTexture(cameraIndex, Screen.width * 10, Screen.height * 10);
 #endif
             // grab the back facing camera on Android device
             if (!WebCamTexture.devices[cameraIndex].isFrontFacing) {
@@ -63,7 +63,10 @@ public class AndroidWebcamDisplay : MonoBehaviour {
 
         Debug.Log("WebcamTexture width = " + webcamWidth + ", height = " + webcamHeight);
 
+        float Alpha = (float)webcamHeight / (float)Screen.height * (float)Screen.width * 0.5f / (float)webcamWidth;
+        shaderMaterial.SetFloat("_Alpha", Alpha);
 
+        Debug.Log("Alpha value of Shader set to: " + Alpha);
     }
 
 
