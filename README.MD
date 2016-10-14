@@ -5,7 +5,7 @@ Author: Long Qian
 Date: 2016-10-14
 
 ## Overview
-The purpose of this repository is to turn Google Cardboard into an **Video See-Through (VST) Augmented Reality device**. However, there is usually only one camera for IOS and Andorid devices. The stereo vision is simulated by applying a fixed disparity to the left half and right half of the screen. [iPhone 7](http://www.apple.com/iphone-7/specs/) plus does have two cameras, but unfortuantely, they are not aligned vertically.
+The purpose of this repository is to turn Google Cardboard into an **Video See-Through (VST) Augmented Reality device**. However, there is usually only one camera for iOS and Android devices. The stereo vision is simulated by applying a fixed disparity to the left half and right half of the screen. [iPhone 7](http://www.apple.com/iphone-7/specs/) plus does have two cameras, but unfortuantely, they are not aligned vertically.
 
 ## Requirement
 ### Building
@@ -25,13 +25,14 @@ The purpose of this repository is to turn Google Cardboard into an **Video See-T
 
 The **FOV** and **disparity** level can be adjust through sliders on screen. **Frame rate** is displayed as well.
 
-The pixel moving job is the last step of rendering. Augmented Reality application can run over this implementation, before blit the final texture to screen.
+The pixel moving job is the last step of rendering. Augmented Reality application can run over this implementation, before the final texture is blited to the screen.
 
 ## Demonstration
 
 ![capture](capture.png "Example")
 
 ## Conclusion
-Shader is your best friend.
+* **Shader** is your best friend.
+* I am looking forward to stereo vision cameras on Android platforms.
 
 
