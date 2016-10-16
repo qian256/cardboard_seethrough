@@ -28,7 +28,10 @@ The **FOV** and **disparity** level can be adjust through sliders on screen. **F
 The pixel moving job is the last step of rendering. Augmented Reality application can run over this implementation, before the final texture is blited to the screen.
 
 ## Demonstration
-The slider on the top right corner controls the field of view, which is correspondent to the size of visible area on the screen, and the slider on the button right corner controls the percentage of the difference in the image: 0.0 for exactly same display, and 0.1 for 10% difference.
+* The slider on the top right corner controls the field of view, which is correspondent to the size of visible area on the screen
+* The slider on the button right corner controls the percentage of the difference in the image
+	* 0.0 for exactly same display
+	* 0.1 for 10% difference (0.3 maximum).
 
 ![capture](capture_with_disparity.png "Capture with disparity")
 
