@@ -1,6 +1,6 @@
 Cardboard See-Through
 ===
-Author: Long Qian
+Author: [Long Qian](https://longqian.me/aboutme)
 
 Date: 2016-10-14
 
