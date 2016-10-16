@@ -38,6 +38,10 @@ public class AndroidWebcamDisplay : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+
+        // Never turn off the screen
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
         m_FpsNextPeriod = Time.realtimeSinceStartup + fpsMeasurePeriod;
 
         Debug.Log("Screen width = " + Screen.width + ", height = " + Screen.height);
